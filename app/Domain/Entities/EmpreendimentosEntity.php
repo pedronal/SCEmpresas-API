@@ -13,18 +13,4 @@ class EmpreendimentosEntity
         public string $contato,
         public bool $status
     ) {}
-
-    public function __toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'empreendedor' => $this->empreendedor,
-            'municipio' => $this->municipio,
-            'segmentoId' => $this->segmentoId,
-            'contato' => $this->contato,
-            'status' => $this->status
-        ];
-    }
-
 }

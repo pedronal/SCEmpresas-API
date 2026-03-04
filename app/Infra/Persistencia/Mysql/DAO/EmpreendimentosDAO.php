@@ -5,6 +5,7 @@ namespace app\Infra\Persistencia\Mysql\DAO;
 use app\Domain\Entities\EmpreendimentosEntity;
 use app\Domain\Filtros\EmpreendimentosFiltros;
 use App\Domain\Repositorios\EmpreendimentosRepositorio;
+use app\Infra\Persistencia\Mysql\Mappers\EmpreendimentosMapper;
 use Illuminate\Support\Collection;
 
 class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
@@ -17,15 +18,9 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
             return $dado === null;
         };
 
-        $update = array_filter([
-            'nome' => $entity->nome,
-            'empreendedor' => $entity->empreendedor,
-            'municipio' => $entity->municipio,
-            'segmento_id' => $entity->segmentoId,
-            'contato' => $entity->contato,
-            'status' => $entity->status,
-            'update_at' => now()
-        ], $callable);
+        $update = array_filter(EmpreendimentosMapper::toArray($entity), $callable);
+
+        parent::update($id, $update);
     }
 
     public function buscar(EmpreendimentosFiltros $filtro): Collection
@@ -60,19 +55,14 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
             $query->where('status', $filtro->status);
         }
 
-        return $query->get();
+        return $query->get()->map(function ($row) {
+            EmpreendimentosMapper::criarEntity($row);
+        });
     }
 
     public function insere(EmpreendimentosEntity $entity): int
     {
-        $dados = [
-            'nome' => $entity->nome,
-            'empreendedor' => $entity->empreendedor,
-            'municipio' => $entity->municipio,
-            'segmento_id' => $entity->segmentoId,
-            'contato' => $entity->contato,
-            'status' => $entity->status,
-        ];
+        $dados = EmpreendimentosMapper::toArray($entity);
         return parent::insert($dados);
     }
 
@@ -95,7 +85,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         );
     }
 
-    public function deletePorId(int $id): void
+    public function deletar(int $id): void
     {
         parent::deletePorId($id);
     }
