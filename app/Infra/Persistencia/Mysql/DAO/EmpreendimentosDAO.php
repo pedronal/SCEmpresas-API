@@ -74,15 +74,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         return null;
         }
 
-        return new EmpreendimentosEntity(
-            $row->id,
-            $row->nome,
-            $row->empreendedor,
-            $row->municipio,
-            $row->segmento_id,
-            $row->contato,
-            $row->status
-        );
+        return EmpreendimentosMapper::criarEntity($row);
     }
 
     public function deletar(int $id): void
