@@ -15,7 +15,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
     public function atualiza(int $id, EmpreendimentosEntity $entity): void
     {
         $callable = function ($dado) {
-            return $dado === null;
+            return $dado !== null;
         };
 
         $update = array_filter(EmpreendimentosMapper::toArray($entity), $callable);
@@ -56,7 +56,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         }
 
         return $query->get()->map(function ($row) {
-            EmpreendimentosMapper::criarEntity($row);
+            return EmpreendimentosMapper::criarEntityFromRow($row);
         });
     }
 
@@ -74,7 +74,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         return null;
         }
 
-        return EmpreendimentosMapper::criarEntity($row);
+        return EmpreendimentosMapper::criarEntityFromRow($row);
     }
 
     public function deletar(int $id): void

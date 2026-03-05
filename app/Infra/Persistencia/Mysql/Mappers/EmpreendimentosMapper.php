@@ -3,22 +3,38 @@
 namespace app\Infra\Persistencia\Mysql\Mappers;
 
 use app\Domain\Entities\EmpreendimentosEntity;
+use Illuminate\Http\Request;
 
 class EmpreendimentosMapper
 {
-    public static function criarEntity(object $row): EmpreendimentosEntity
+    public static function criarEntityFromRequest(Request $request): EmpreendimentosEntity
     {
         return new EmpreendimentosEntity(
-            $row->id,
+            $request->id,
+            $request->nome,
+            $request->empreendedor,
+            $request->municipio,
+            $request->segmentoId,
+            $request->contato,
+            $request->status
+        );
+
+    }
+
+    public static function criarEntityFromRow(object $row): EmpreendimentosEntity
+    {
+        return new EmpreendimentosEntity(
+            $row->empreendimentos_id,
             $row->nome,
             $row->empreendedor,
             $row->municipio,
-            $row->segmentoId,
+            $row->id_segmento,
             $row->contato,
             $row->status
         );
 
     }
+
     public static function toArray(EmpreendimentosEntity $entity): array
 
     {

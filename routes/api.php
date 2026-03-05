@@ -13,8 +13,8 @@ Route::prefix('empreendimentos')->group(function () {
 
     Route::post('/', [EmpreendimentosController::class, 'adiciona']);
 
-    Route::put('/{id}', [EmpreendimentosController::class, 'atualiza']);
+    Route::put('/', [EmpreendimentosController::class, 'atualiza']);
 
-    Route::delete('/{id}', [EmpreendimentosController::class, 'remover']);
+    Route::delete('/{id}', [EmpreendimentosController::class, 'remove']);
 
 });

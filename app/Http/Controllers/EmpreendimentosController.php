@@ -39,7 +39,7 @@ class EmpreendimentosController extends Controller
 
     public function adiciona(Request $request, CriarEmpreendimento $useCase): JsonResponse
     {
-        $id = $useCase->executar(EmpreendimentosMapper::criarEntity($request));
+        $id = $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
 
         if (!$id) {
             return response()->json([
@@ -54,7 +54,7 @@ class EmpreendimentosController extends Controller
 
     public function atualiza(Request $request, EditarEmpreendimento $useCase): JsonResponse
     {
-        $id = $useCase->executar(EmpreendimentosMapper::criarEntity($request));
+        $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
 
         return response()->json([
             'message' => 'Empreendimento atualizado'

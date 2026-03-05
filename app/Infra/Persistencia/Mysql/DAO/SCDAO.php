@@ -29,7 +29,7 @@ abstract class SCDAO
     public function update(int $id, array $dados): void
     {
         $diferencas = $this->getDiferencas($id, $dados);
-        if (!empty($diferencas)) {
+        if (empty($diferencas)) {
             return;
         }
 
@@ -52,8 +52,11 @@ abstract class SCDAO
         $diferencas = [];
 
         foreach ($dadosAtuais as $campo => $valor) {
+            if (empty($dadosNovos[$campo])) {
+                continue;
+            }
             if ($valor !== null && $dadosNovos[$campo] !== $valor) {
-                $diferencas[$campo] = $valor;
+                $diferencas[$campo] = $dadosNovos[$campo];
             }
         }
 
@@ -61,7 +64,7 @@ abstract class SCDAO
             return [];
         }
 
-        $diferencas['updated_at'] = now();
+        $diferencas['updated_at'] = now()->format('Y-m-d H:i:s');
 
         return $diferencas;
     }
