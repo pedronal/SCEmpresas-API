@@ -48,12 +48,14 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         }
 
         if ($filtro->contato) {
-            $query->where('nome', 'like', "%{$filtro->contato}%");
+            $query->where('contato', 'like', "%{$filtro->contato}%");
         }
 
         if ($filtro->status !== null) {
             $query->where('status', $filtro->status);
         }
+
+        $query->where('flag_oculto', $filtro->flag_oculto);
 
         return $query->get()->map(function ($row) {
             return EmpreendimentosMapper::criarEntityFromRow($row);

@@ -17,4 +17,6 @@ class EmpreendimentosFiltros
     public ?string $contato = null;
 
     public ?bool $status = null;
+
+    public bool $flag_oculto;
 }

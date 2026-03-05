@@ -17,7 +17,7 @@ class EmpreendimentosFiltrosFactory
         $filtro->segmentoId = $request->query('segmentoId');
         $filtro->contato = $request->query('contato');
         $filtro->status = $request->query('status');
-
+        $filtro->flag_oculto = ($request->query('flag_oculto') ?? false);
         return $filtro;
     }
 }

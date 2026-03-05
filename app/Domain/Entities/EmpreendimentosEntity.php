@@ -12,5 +12,9 @@ class EmpreendimentosEntity
         public ?int $segmentoId,
         public ?string $contato,
         public ?bool $status
-    ) {}
+    ) {
+        if (!$this->nome) {
+            throw new \Exception('O nome é obrigatório');
+        }
+    }
 }
