@@ -39,12 +39,12 @@ class EmpreendimentosMapper
 
     {
         return [
-            'nome' => $entity->nome,
-            'empreendedor' => $entity->empreendedor,
-            'municipio' => $entity->municipio,
-            'id_segmento' => $entity->segmentoId,
-            'contato' => $entity->contato,
-            'status' => $entity->status
+            'nome' => $entity->nome ?? '',
+            'empreendedor' => $entity->empreendedor ?? '',
+            'municipio' => $entity->municipio ?? '',
+            'id_segmento' => $entity->segmentoId ?? 0,
+            'contato' => $entity->contato ?? '',
+            'status' => $entity->status ?? true
         ];
     }
 }

@@ -63,6 +63,8 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
     public function insere(EmpreendimentosEntity $entity): int
     {
         $dados = EmpreendimentosMapper::toArray($entity);
+        $dados['created_at'] = now()->format('Y-m-d H:i:s');
+        $dados['updated_at'] = now()->format('Y-m-d H:i:s');
         return parent::insert($dados);
     }
 
