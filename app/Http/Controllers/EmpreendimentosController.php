@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
 use app\Aplicacoes\CasosDeUso\Empreendimentos\BuscarEmpreendimento;
 use app\Aplicacoes\CasosDeUso\Empreendimentos\CriarEmpreendimento;

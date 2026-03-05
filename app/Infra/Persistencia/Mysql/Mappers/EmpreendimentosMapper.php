@@ -26,7 +26,7 @@ class EmpreendimentosMapper
             'nome' => $entity->nome,
             'empreendedor' => $entity->empreendedor,
             'municipio' => $entity->municipio,
-            'segmentoId' => $entity->segmentoId,
+            'id_segmento' => $entity->segmentoId,
             'contato' => $entity->contato,
             'status' => $entity->status
         ];

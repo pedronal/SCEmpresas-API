@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repositorios;
+namespace app\Domain\Repositorios;
 
 use App\Domain\Entities\EmpreendimentosEntity;
 use app\Domain\Filtros\EmpreendimentosFiltros;

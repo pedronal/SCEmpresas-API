@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
 {
-    private const TABELA = 'empreendimentos';
+    public const TABELA = 'empreendimentos';
 
     public function atualiza(int $id, EmpreendimentosEntity $entity): void
     {
@@ -36,7 +36,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         }
 
         if ($filtro->empreendedor) {
-            $query->where('nome', 'like', "%{$filtro->empreendedor}%");
+            $query->where('empreendedor', 'like', "%{$filtro->empreendedor}%");
         }
 
         if ($filtro->municipio) {
@@ -44,7 +44,7 @@ class EmpreendimentosDAO extends SCDAO implements EmpreendimentosRepositorio
         }
 
         if ($filtro->segmentoId) {
-            $query->where('segmento_id', $filtro->segmentoId);
+            $query->where('id_segmento', $filtro->segmentoId);
         }
 
         if ($filtro->contato) {
