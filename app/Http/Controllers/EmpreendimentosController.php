@@ -9,37 +9,39 @@ use app\Aplicacoes\CasosDeUso\Empreendimentos\EditarEmpreendimento;
 use app\Aplicacoes\CasosDeUso\Empreendimentos\ListarEmpreendimento;
 use app\Aplicacoes\Factories\Empreendimentos\EmpreendimentosFiltrosFactory;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EmpreendimentoResource;
 use app\Infra\Persistencia\Mysql\Mappers\EmpreendimentosMapper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmpreendimentosController extends Controller
 {
-    public function getLista(Request $request, ListarEmpreendimento $useCase): JsonResponse
+    public function getLista(Request $request, ListarEmpreendimento $useCase): AnonymousResourceCollection
     {
         $filtro = EmpreendimentosFiltrosFactory::fromRequest($request);
 
         $lista = $useCase->executar($filtro);
 
-        return response()->json($lista);
+        return EmpreendimentoResource::collection($lista);
     }
 
-    public function buscaPorId(int $id, BuscarEmpreendimento $useCase): JsonResponse
+    public function buscaPorId(int $id, BuscarEmpreendimento $useCase): JsonResource
     {
         $empreendimento = $useCase->executar($id);
 
-        if (!$empreendimento) {
-            return response()->json([
-                'message' => 'Empreendimento não encontrado'
-            ], 404);
-        }
 
-        return response()->json($empreendimento);
+        return new EmpreendimentoResource($empreendimento);
     }
 
     public function adiciona(Request $request, CriarEmpreendimento $useCase): JsonResponse
     {
-        $id = $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
+        try {
+            $id = $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
+        } catch (\Exception $e) {
+            $id = 0;
+        }
 
         if (!$id) {
             return response()->json([
@@ -54,10 +56,15 @@ class EmpreendimentosController extends Controller
 
     public function atualiza(Request $request, EditarEmpreendimento $useCase): JsonResponse
     {
-        $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
+        try {
+            $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
+            $message = 'Empreendimento atualizado';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
 
         return response()->json([
-            'message' => 'Empreendimento atualizado'
+            'message' => $message
         ]);
     }
 
