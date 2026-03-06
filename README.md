@@ -1,59 +1,207 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API de Empreendimentos de Santa Catarina
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descrição do Projeto
 
-## About Laravel
+Este projeto consiste no desenvolvimento de uma API REST para gerenciamento de empreendimentos no estado de Santa Catarina. A aplicação permite realizar operações de cadastro, listagem, edição e remoção de empreendimentos, seguindo o modelo CRUD (Create, Read, Update, Delete).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O sistema foi desenvolvido utilizando PHP com o framework Laravel e tem como objetivo disponibilizar um serviço back-end responsável por gerenciar informações sobre empreendimentos e seus respectivos segmentos de atuação.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Cada empreendimento possui as seguintes informações:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Nome do empreendimento
+- Nome do(a) empreendedor(a) responsável
+- Município de Santa Catarina
+- Segmento de atuação
+- E-mail ou meio de contato
+- Status (ativo ou inativo)
 
-## Learning Laravel
+Os segmentos disponíveis são:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Tecnologia
+- Comércio
+- Indústria
+- Serviços
+- Agronegócio
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Esses segmentos são armazenados em uma tabela relacional no banco de dados, garantindo melhor organização e normalização das informações.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Tecnologias Utilizadas
 
-### Premium Partners
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP 8
+- Laravel
+- MySQL
+- Composer
+- XAMPP
+- Postman (para testes da API)
+- Git / GitHub
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Arquitetura do Projeto
 
-## Code of Conduct
+O projeto foi estruturado seguindo uma separação de responsabilidades inspirada em princípios de Clean Architecture, organizando o código em camadas distintas para melhorar a manutenção e legibilidade.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+Principais responsabilidades:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Controllers**: recebem requisições HTTP e retornam respostas JSON.
+- **UseCases**: implementam as regras de negócio da aplicação.
+- **Repositories**: definem contratos para acesso aos dados.
+- **DAO**: responsável por executar consultas no banco de dados.
+- **Mappers**: realizam a conversão entre entidades da aplicação e estruturas do banco de dados.
+- **Resources**: transformam os dados em respostas JSON padronizadas.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Estrutura do Banco de Dados
+
+O sistema possui duas tabelas principais:
+
+### segmentos
+
+| Campo       | Tipo    |
+|-------------|---------|
+| segmento_id | integer |
+| nome        | string  |
+
+### empreendimentos
+
+| Campo        | Tipo    |
+|--------------|---------|
+| id           | integer |
+| nome         | string  |
+| empreendedor | string  |
+| municipio    | string  |
+| segmento_id  | integer |
+| contato      | string  |
+| status       | boolean |
+| flag_oculto  | boolean |
+
+A tabela `empreendimentos` possui uma relação com a tabela `segmentos` através do campo `segmento_id`.
+
+---
+
+## Endpoints da API
+
+### Listar empreendimentos
+
+
+GET /api/empreendimentos
+
+
+### Buscar empreendimento por ID
+
+
+GET /api/empreendimentos/{id}
+
+
+### Criar empreendimento
+
+
+POST /api/empreendimentos
+
+
+### Atualizar empreendimento
+
+
+PUT /api/empreendimentos/{id}
+
+
+### Remover empreendimento
+
+
+DELETE /api/empreendimentos/{id}
+
+
+### Listar segmentos
+
+
+GET /api/segmentos
+
+
+---
+
+## Como executar o projeto
+
+1. Clonar o repositório
+
+
+git clone <URL_DO_REPOSITORIO>
+
+
+2. Acessar a pasta do projeto
+
+
+cd projeto
+
+
+3. Instalar dependências
+
+
+composer install
+
+
+4. Configurar o arquivo `.env`
+
+Copie o arquivo de exemplo:
+
+
+cp .env.example .env
+
+
+Configure as credenciais do banco de dados.
+
+5. Gerar chave da aplicação
+
+
+php artisan key:generate
+
+
+6. Executar as migrations e seeders
+
+
+php artisan migrate --seed
+
+
+7. Iniciar o servidor
+
+Caso esteja utilizando XAMPP, acesse:
+
+
+http://localhost/seu-projeto/public
+
+
+---
+
+## Testes da API
+
+A API pode ser testada utilizando ferramentas como:
+
+- Postman
+- Insomnia
+
+Exemplo de requisição:
+
+
+GET /api/empreendimentos
+
+
+---
+
+## Vídeo Pitch
+
+Link para o vídeo de apresentação do projeto:
+
+
+
+
+No vídeo são apresentados:
+
+- Objetivo do projeto
+- Principais funcionalidades
+- Demonstração da API em funcionamento
+- Decisões técnicas adotadas no desenvolvimento
