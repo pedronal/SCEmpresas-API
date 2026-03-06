@@ -39,7 +39,7 @@ class EmpreendimentosController extends Controller
     {
         try {
             $id = $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $id = 0;
         }
 
