@@ -8,6 +8,7 @@ use app\Aplicacoes\CasosDeUso\Empreendimentos\DeletarEmpreendimento;
 use app\Aplicacoes\CasosDeUso\Empreendimentos\EditarEmpreendimento;
 use app\Aplicacoes\CasosDeUso\Empreendimentos\ListarEmpreendimento;
 use app\Aplicacoes\Factories\Empreendimentos\EmpreendimentosFiltrosFactory;
+use App\Exceptions\EmptyBodyException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EmpreendimentoResource;
 use app\Infra\Persistencia\Mysql\Mappers\EmpreendimentosMapper;
@@ -37,34 +38,30 @@ class EmpreendimentosController extends Controller
 
     public function adiciona(Request $request, CriarEmpreendimento $useCase): JsonResponse
     {
-        try {
-            $id = $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
-        } catch (\Exception) {
-            $id = 0;
+        if (empty($request->all())) {
+            throw new EmptyBodyException();
         }
 
-        if (!$id) {
-            return response()->json([
-                'message' => 'Erro ao adicionar empreendimento'
-            ], 404);
-        }
+        $entity = EmpreendimentosMapper::criarEntityFromRequest($request);
+
+        $id = $useCase->executar($entity);
 
         return response()->json([
-            'message' => 'Empreendimento adicionado com sucesso'
+            'sucesso' => true,
+            'empreendimento_id' => $id
         ]);
     }
 
     public function atualiza(Request $request, EditarEmpreendimento $useCase): JsonResponse
     {
-        try {
-            $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
-            $message = 'Empreendimento atualizado';
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
+        if (empty($request->all())) {
+            throw new EmptyBodyException();
         }
 
+        $useCase->executar(EmpreendimentosMapper::criarEntityFromRequest($request));
+
         return response()->json([
-            'message' => $message
+            'sucesso' => true,
         ]);
     }
 
