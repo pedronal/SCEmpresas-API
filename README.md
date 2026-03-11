@@ -87,92 +87,217 @@ A tabela `empreendimentos` possui uma relação com a tabela `segmentos` atravé
 
 ## Endpoints da API
 
-### Listar empreendimentos
+### A API segue o padrão REST e retorna respostas no formato JSON.
 
+Listar empreendimentos:
 
 GET /api/empreendimentos
 
+Exemplo de requisição
+```http
+GET /api/empreendimentos?nome=sc&municipio=florianopolis
+```
+Exemplo de resposta
+```json
+{
+  "data": [
+      {
+          "id": 1,
+          "nome": "SC Tech Solutions",
+          "empreendedor": "João Silva",
+          "municipio": "Florianópolis",
+          "segmentoId": 1,
+          "contato": "contato@techsolutions.com",
+          "status": true
+      },
+      {
+          "id": 3,
+          "nome": "AgroSC",
+          "empreendedor": "Pedro Alberto",
+          "municipio": "Florianópolis",
+          "segmentoId": 5,
+          "contato": "vendas@agrosc.com",
+          "status": true
+      }
+  ]
+}
+```
 
 ### Buscar empreendimento por ID
 
-
 GET /api/empreendimentos/{id}
 
-
+Exemplo de requisição
+```http
+GET /api/empreendimentos/1
+```
+Exemplo de resposta:
+```json
+{
+    "data": {
+        "id": 1,
+        "nome": "Tech Solutions",
+        "empreendedor": "João Silva",
+        "municipio": "Florianópolis",
+        "segmentoId": 1,
+        "contato": "contato@techsolutions.com",
+        "status": true
+    }
+}
+```
 ### Criar empreendimento
-
 
 POST /api/empreendimentos
 
+Exemplo de requisição
+```http
+POST /api/empreendimentos
+``` 
+Exemplo de body
+```json
+{
+    "nome": "Nova Empresa",
+    "empreendedor": "Maria Souza",
+    "municipio": "Joinville",
+    "segmentoId": 2,
+    "contato": "contato@novaempresa.com",
+    "status": true
+}
+``` 
+Exemplo de resposta
+```json
+{
+    "sucesso": true,
+    "empreendimento_id": 14
+}
+``` 
 
 ### Atualizar empreendimento
 
-
 PUT /api/empreendimentos/{id}
 
+Exemplo de requisição
+```http
+PUT /api/empreendimentos/1
+``` 
+Body:
+```json
+{
+    "nome": "Empresa Atualizada",
+    "empreendedor": "Maria Souza",
+    "municipio": "Joinville",
+    "segmentoId": 3,
+    "contato": "novoemail@empresa.com",
+    "status": true
+}
+```
+Exemplo de resposta
+```
+{
+    "message": "Empreendimento atualizado com sucesso"
+}
+```
 
-### Remover empreendimento
-
+Remover empreendimento
 
 DELETE /api/empreendimentos/{id}
 
-
-### Listar segmentos
-
+Exemplo de requisição
+```http
+DELETE /api/empreendimentos/1
+```
+Exemplo de resposta
+```json
+{
+  "message": "Empreendimento removido com sucesso"
+}
+```
+Listar segmentos
 
 GET /api/segmentos
 
+Exemplo de requisição
+```http
+GET /api/segmentos
+```
+Exemplo de resposta
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "nome": "Tecnologia"
+        },
+        {
+            "id": 2,
+            "nome": "Comércio"
+        },
+        {
+            "id": 3,
+            "nome": "Indústria"
+        },
+        {
+            "id": 4,
+            "nome": "Serviços"
+        },
+        {
+            "id": 5,
+            "nome": "Agronegócio"
+        }
+    ]
+}
+```
 
 ---
 
 ## Como executar o projeto
 
-1. Clonar o repositório
+### 1. Clonar o repositório
 
 
-git clone <URL_DO_REPOSITORIO>
+- git clone <URL_DO_REPOSITORIO>
 
 
-2. Acessar a pasta do projeto
+### 2. Acessar a pasta do projeto
 
 
-cd projeto
+- cd projeto
 
 
-3. Instalar dependências
+### 3. Instalar dependências
 
 
-composer install
+- composer install
 
 
-4. Configurar o arquivo `.env`
+### 4. Configurar o arquivo `.env`
 
-Copie o arquivo de exemplo:
-
-
-cp .env.example .env
+- Copie o arquivo de exemplo:
 
 
-Configure as credenciais do banco de dados.
-
-5. Gerar chave da aplicação
+- cp .env.example .env
 
 
-php artisan key:generate
+- Configure as credenciais do banco de dados.
+
+### 5. Gerar chave da aplicação
 
 
-6. Executar as migrations e seeders
+- php artisan key:generate
+
+
+### 6. Executar as migrations e seeders
 
 
 php artisan migrate --seed
 
 
-7. Iniciar o servidor
+### 7. Iniciar o servidor
 
-Caso esteja utilizando XAMPP, acesse:
+- Caso esteja utilizando XAMPP, acesse:
 
 
-http://localhost/seu-projeto/public
+- http://localhost/seu-projeto/public
 
 
 ---
